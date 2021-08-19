@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "pommevilla.netlify.app/"
 theme = "hugo-apero"
 languageCode = "en"
 title = "Paul Villanueva"
