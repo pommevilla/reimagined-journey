@@ -1,0 +1,47 @@
+<p>A common problem encountered in research is deciding how many components or clusters to use in your analysis. For example:</p>
+<ul>
+<li>How many components should you use after performing principal component analysis (or other dimension reduction techniques)?</li>
+<li>How many clusters should you use in a k-means clustering classification task?</li>
+<li>How many hidden layers and nodes should you use in a neural network?</li>
+</ul>
+<p>If we use too few components/clusters/layers, then we are unable to accurately describe the behavior of our system. On the other hand, if we use too many components/clusters/layers, then the computational time may grow too much, making solving the problem intolerable.</p>
+<p>Consider the following plot of abundance of genes by clusters.</p>
+<p><img src="elbows_files/figure-html/plot.data.1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>It’s clear we need to include the first couple of clusters so our probes will pick up a reasonable amount of our gene targets, but how many clusters should we include? Our intuition tells us to include the first 6 clusters, up to and including ADE13856. But <em>why</em> does our intuition tell us that this point is special? What is it about the curve at this point that draws our eyes to it?</p>
+<p>What our intuition is picking up on is the point of the curve where the marginal benefit begins to flatten out. That is, the rate at which we gain benefit by adding another unit starts to significantly decrease past this point. One way to think about this analytically is to look at the rate of change in the benefit with respect to the number of clusters or components included. The meaning of benefit changes from context to context. In PCA, the benefit is the percentage of variance explained</p>
+<p>Some other mentions of the elbow of a graph:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Elbow_method_(clustering)">Wikipedia</a> states that the elbow “cannot always be unambiguously identified.”</li>
+<li>The <a href="https://uc-r.github.io/kmeans_clustering#elbow">University of Cincinatti shows a method</a> for finding the elbow in the context of the k-means clustering algorithm.</li>
+<li>The most thorough answer I’ve found is <a href="https://stackoverflow.com/a/15376462">Ben’s answer on Stack Overflow</a>, which demonstrates several different methods for finding the elbow of a plot.</li>
+<li>The <a href="https://www.rdocumentation.org/packages/GMD/versions/0.3.3/topics/elbow">GMD</a> and <a href="https://www.rdocumentation.org/packages/factoextra/versions/1.0.5/topics/fviz_nbclust">factoextra</a> R packages provide methods for finding the elbow of a graph, though I wasn’t able to get the packages operational at the time of writing.</li>
+</ul>
+<p>As seen above, there are several methods for analytically determing the elbow of the graph, but they are all somewhat computationally expensive and difficult to communicate. The method I’ve chosen to find the elbow of a graph is based on the <a href="https://en.wikipedia.org/wiki/Numerical_differentiation">first-order difference</a>. The method is as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Let <span class="math inline">\(f\colon X\to \mathbb{R}\)</span> be some benefit function, and choose some <span class="math inline">\(t \in X\)</span>.</li>
+<li>Calculate the first-order differences of <span class="math inline">\(f\)</span> on <span class="math inline">\([0, t]\)</span> and on <span class="math inline">\([t, \sup{X}]\)</span>. That is, <span class="math display">\[f_{t^-} = \frac{f(t) - f(0)}{t}\]</span> and <span class="math display">\[f_{t^+} = \frac{f(\sup{X}) - f(t)}{\sup{X} - t}\]</span>. Note that this is just calculating the slope of the secant lines through <span class="math inline">\(t\)</span> from either end of <span class="math inline">\(X\)</span>.</li>
+<li>Assign a score to <span class="math inline">\(fod_t\)</span> to <span class="math inline">\(t\)</span> via <span class="math inline">\(fod_t = f_{t^-} - f_{t^+}\)</span>.</li>
+<li>Repeat this process for all choices <span class="math inline">\(t \in X\)</span>. The elbow of <span class="math inline">\(f\)</span> is the choice of <span class="math inline">\(t\)</span> that maximizes <span class="math inline">\(fod\)</span>. That is, the elbow point is <span class="math inline">\(\arg \max fod_t\)</span>.</li>
+</ol>
+<p>Less formally, we’re assigning a score to each cutoff point by separating the curve into two parts and calculating the difference in the average rates of change for both of these parts. We then choose our elbow point to be the cutoff point that maximizes this score. A simple R script for finding the first-order differences for each observation in a dataframe <code>df</code> might look like:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fo_difference <span class="ot">&lt;-</span> <span class="cf">function</span>(pos){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  left <span class="ot">&lt;-</span> (amoa.cluster_info[pos, <span class="dv">4</span>] <span class="sc">-</span> amoa.cluster_info[<span class="dv">1</span>, <span class="dv">4</span>]) <span class="sc">/</span> pos</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  right <span class="ot">&lt;-</span> (amoa.cluster_info[<span class="fu">nrow</span>(amoa.cluster_info), <span class="dv">4</span>] <span class="sc">-</span> amoa.cluster_info[pos, <span class="dv">4</span>]) <span class="sc">/</span> (<span class="fu">nrow</span>(amoa.cluster_info) <span class="sc">-</span> pos)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(left <span class="sc">-</span> right)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>fo_diffs <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(df), fo_difference)</span></code></pre></div>
+<p>Note that this calculation of the first-order differences on either side of the point assumes that the observations are equally spaced; that is, the distance between each observation is uniform. This is usually the case for these kind of problems, but this is an assumption you should check before using the above function. From here, we simply take the max of <code>df$fo_diffs</code> to find our elbow point.</p>
+<p>As an example of this method, let’s look at the first-order differences for the plot above and see what cutoff point maximizes that difference:</p>
+<p><img src="elbows_files/figure-html/plot.fo_difference.1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This lines up with our intuition as to which clusters we should include:</p>
+<p><img src="elbows_files/figure-html/plot.fo_difference.2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>However, it might be worth investigating other inclusion thresholds around this elbow; if the scores around this point are sufficiently close, then we might have some additional information that will inform our cutoff choice. For instance, if there is a significant cost in adding more components, we might err for fewer components if the first-order difference is roughly the same. One suggestion could be to look at cutoffs whose first-order difference is within 10% of the elbow point:</p>
+<p><img src="elbows_files/figure-html/featured-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This 10% value was chosen completely arbitrarily. There are probably smarter ways to choose this cutoff. For instance, we could simulate “significant” first-order differences:</p>
+<ul>
+<li>Shuffle the order of the clusters</li>
+<li>Calculate the largest first-order difference</li>
+<li>Repeat (say) 1000 times</li>
+<li>Choose a 95% percent cutoff from these simulated values</li>
+</ul>
+<p>Doing so will give us more cutoff values to investigate.</p>

@@ -1,0 +1,17 @@
+base
+dplyr
+ggplot2
+janitor
+MASS
+lattice
+mixOmics
+reshape2
+tidyverse
+tibble
+tidyr
+readr
+purrr
+stringr
+forcats
+readxl
+here
