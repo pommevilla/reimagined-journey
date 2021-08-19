@@ -18,7 +18,7 @@ Consider the following plot of abundance of genes by clusters.
 
 
 
-<img src="/blog/202108_elbows/elbows_files/figure-html/plot.data.1-1.png" width="672" style="display: block; margin: auto;" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/plot.data.1-1.png" width="672" style="display: block; margin: auto;" />
 
 It's clear we need to include the first couple of clusters so our probes will pick up a reasonable amount of our gene targets, but how many clusters should we include? Our intuition tells us to include the first 6 clusters, up to and including ADE13856. But *why* does our intuition tell us that this point is special? What is it about the curve at this point that draws our eyes to it? 
 
@@ -54,15 +54,15 @@ Note that this calculation of the first-order differences on either side of the 
 
 As an example of this method, let's look at the first-order differences for the plot above and see what cutoff point maximizes that difference:
 
-<img src="/blog/202108_elbows/elbows_files/figure-html/plot.fo_difference.1-1.png" width="672" style="display: block; margin: auto;" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/plot.fo_difference.1-1.png" width="672" style="display: block; margin: auto;" />
 
 This lines up with our intuition as to which clusters we should include:
 
-<img src="/blog/202108_elbows/elbows_files/figure-html/plot.fo_difference.2-1.png" width="672" style="display: block; margin: auto;" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/plot.fo_difference.2-1.png" width="672" style="display: block; margin: auto;" />
 
 However, it might be worth investigating other inclusion thresholds around this elbow; if the scores around this point are sufficiently close, then we might have some additional information that will inform our cutoff choice. For instance, if there is a significant cost in adding more components, we might err for fewer components if the first-order difference is roughly the same. One suggestion could be to look at cutoffs whose first-order difference is within 10% of the elbow point:
 
-<img src="/blog/202108_elbows/elbows_files/figure-html/featured-1.png" width="672" style="display: block; margin: auto;" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/featured-1.png" width="672" style="display: block; margin: auto;" />
 
 This 10% value was chosen completely arbitrarily. There are probably smarter ways to choose this cutoff. For instance, we could simulate "significant" first-order differences:
 
