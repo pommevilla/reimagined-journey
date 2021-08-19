@@ -2,6 +2,11 @@
 title: "Elbows: Another look at the elbow method using first-order differences"
 date: "2021-08-19"
 excerpt: A simple method to pick an (almost) optimal number of features.
+tags: 
+- pca
+- math
+categories:
+- bioinformatics
 ---
 
 ```{r setup, include = FALSE}
