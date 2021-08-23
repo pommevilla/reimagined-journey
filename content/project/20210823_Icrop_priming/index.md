@@ -5,7 +5,7 @@ categories:
 - Human impact
 date: "2019-07-03"
 draft: false
-excerpt: This research project examines how different crop priming additions impact the nitrogen fixation capabilities of corn and miscanthus
+excerpt: Examining how different crop priming additions impact the nitrogen fixation capabilities of corn and *Miscanthus Gigantus*.
 layout: single
 tags:
 - quarto
