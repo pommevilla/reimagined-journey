@@ -97,7 +97,10 @@ enableEmoji = true
       icon      = "orcid" # icon name without the 'fa-'
       icon_pack = "ai"
       url       = "https://orcid.org/0000-0003-3176-3580"
-
+  [[params.social]]
+      icon      = "cv" # icon name without the 'fa-'
+      icon_pack = "ai"
+      url       = "/pvcv.pdf"
 
 [taxonomies]
   category = "categories"
@@ -126,15 +129,21 @@ enableEmoji = true
     
   # Configure footer  
   [[menu.footer]]
+    name = "Download my CV"
+    title = "Download my CV"
+    url = "/pvcv.pdf"
+    weight = 1
+  [[menu.footer]]
     name = "License"
     title = "License"
     url = "/license/"
-    weight = 1
+    weight = 2
   [[menu.footer]]
     name = "Contact"
     title = "Contact form"
     url = "/contact/"
-    weight = 2
+    weight = 3
+    
 
 # see https://gohugo.io/about/hugo-and-gdpr/    
 [privacy]
