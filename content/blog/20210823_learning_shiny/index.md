@@ -220,7 +220,7 @@ penguin.NMDS <- metaMDS(
 # The stress of the NMDS was below 0.05, indicating that reducing the dimensions of the data does a fair job.
 penguin.NMDS$stress
 
-
+# We have to filter out NAs since `metaMDS` doesn't like them
 penguin.NMDS <- as.data.frame(vegan::scores(penguin.NMDS, display = "sites")) %>% 
   bind_cols(
     penguins %>% 
@@ -266,7 +266,7 @@ final_boosted_model <- fit(boosted_workflow, penguins)
 ```
 
 ```
-## [05:19:14] WARNING: amalgamation/../src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
+## [10:36:25] WARNING: amalgamation/../src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
 ```
 
 ```r
@@ -277,4 +277,4 @@ I then loaded that model into a simple Shiny app that takes The different measur
 
 ![](shiny-db.png)
 
-You can play with the app [https://pommevilla.shinyapps.io/shiny_penguins/](here) and check out the code [here](https://github.com/pommevilla/shiny_penguins/blob/main/R/app.R). It's a super simple app, but I wanted to get the hang of the Shiny workflow before I start doing some more intense ones.
+You can play with the app [here](https://pommevilla.shinyapps.io/shiny_penguins) and check out the code [here](https://github.com/pommevilla/shiny_penguins/blob/main/R/app.R). It's a super simple app, but I wanted to get the hang of the Shiny workflow before I start doing some more intense ones.

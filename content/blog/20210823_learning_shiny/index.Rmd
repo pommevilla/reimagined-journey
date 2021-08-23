@@ -177,7 +177,7 @@ penguin.NMDS <- metaMDS(
 # The stress of the NMDS was below 0.05, indicating that reducing the dimensions of the data does a fair job.
 penguin.NMDS$stress
 
-
+# We have to filter out NAs since `metaMDS` doesn't like them
 penguin.NMDS <- as.data.frame(vegan::scores(penguin.NMDS, display = "sites")) %>% 
   bind_cols(
     penguins %>% 
@@ -224,4 +224,4 @@ I then loaded that model into a simple Shiny app that takes The different measur
 
 ![](shiny-db.png)
 
-You can play with the app [https://pommevilla.shinyapps.io/shiny_penguins/](here) and check out the code [here](https://github.com/pommevilla/shiny_penguins/blob/main/R/app.R). It's a super simple app, but I wanted to get the hang of the Shiny workflow before I start doing some more intense ones.
+You can play with the app [here](https://pommevilla.shinyapps.io/shiny_penguins) and check out the code [here](https://github.com/pommevilla/shiny_penguins/blob/main/R/app.R). It's a super simple app, but I wanted to get the hang of the Shiny workflow before I start doing some more intense ones.
