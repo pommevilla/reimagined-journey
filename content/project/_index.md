@@ -1,6 +1,6 @@
 ---
-author: The R Markdown Team @RStudio
 cascade:
+  author: Paul Villanueva
   show_author_byline: true
   show_comments: false
   show_post_date: true
