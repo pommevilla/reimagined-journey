@@ -1,5 +1,5 @@
 ---
-title: "Learning Shiny ( some tidymodels)"
+title: "Learning Shiny (+ some tidymodels)"
 categories:
 - Shiny
 - Learning
@@ -234,11 +234,23 @@ penguin.NMDS <- as.data.frame(vegan::scores(penguin.NMDS, display = "sites")) %>
 penguin.NMDS %>% 
   ggplot(aes(NMDS1, NMDS2, color = species)) +
   geom_point(size = 2) + 
+  geom_hline(yintercept = 0.0,
+             colour = "grey",
+             lty = 2) +
+  geom_vline(xintercept = 0.0,
+             colour = "grey",
+             lty = 2) +
   labs(
     color = "Species",
     title = "Palmer Penguins NMDS"
-  )
+  ) + 
+  theme(
+    panel.grid = element_line(color = "gray95"),
+    panel.border = element_rect(color = "black", size = 1, fill = NA)
+  ) 
 ```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 
 We see that the species of penguins cluster quite strongly, with Gentoo separating cleanly from the other two species. While Adelie and Chinstrap are relatively close, there are is still a clear distinction between the two clusters. Models doing this well make me nervous, but seeing how well-separated the plot is puts my mind to rest a little bit.
@@ -254,7 +266,7 @@ final_boosted_model <- fit(boosted_workflow, penguins)
 ```
 
 ```
-## [05:14:04] WARNING: amalgamation/../src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
+## [05:19:14] WARNING: amalgamation/../src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
 ```
 
 ```r

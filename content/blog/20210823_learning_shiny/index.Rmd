@@ -1,5 +1,5 @@
 ---
-title: "Learning Shiny ( some tidymodels)"
+title: "Learning Shiny (+ some tidymodels)"
 categories:
 - Shiny
 - Learning
@@ -162,7 +162,7 @@ boosted_results %>%
 The metrics were very high, but this makes sense given the clustering of the dataset. We can visualize this with an NMDS:
 
 
-```{r, message=FALSE, warning=FALSE, eval=FALSE}
+```{r, message=FALSE, warning=FALSE, results='hide'}
 library(vegan)
 
 penguins <- penguins %>% 
@@ -191,10 +191,20 @@ penguin.NMDS <- as.data.frame(vegan::scores(penguin.NMDS, display = "sites")) %>
 penguin.NMDS %>% 
   ggplot(aes(NMDS1, NMDS2, color = species)) +
   geom_point(size = 2) + 
+  geom_hline(yintercept = 0.0,
+             colour = "grey",
+             lty = 2) +
+  geom_vline(xintercept = 0.0,
+             colour = "grey",
+             lty = 2) +
   labs(
     color = "Species",
     title = "Palmer Penguins NMDS"
-  )
+  ) + 
+  theme(
+    panel.grid = element_line(color = "gray95"),
+    panel.border = element_rect(color = "black", size = 1, fill = NA)
+  ) 
 ```
 
 
