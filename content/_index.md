@@ -2,13 +2,13 @@
 action_label: Read More &rarr;
 action_link: /about
 action_type: text
-description: Sit down, relax, and check out all the cool stuff I'm working on!
+description: I like solving problems and learning new things. Before coming to Iowa State to do my graduate studies in bioinformatics, I studied mathematics and computer science. 
 image_left: true
 images:
 - img/revoir.jpg
 show_action_link: true
 show_social_links: true
-subtitle: Aspiring bioinformatician
+subtitle: PhD Student, Bioinformatics
 text_align_left: true
 title: Paul Villanueva
 type: home

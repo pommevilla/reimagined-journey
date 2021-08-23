@@ -8,4 +8,4 @@ headline: |
 
 <!-- this is a subheadline -->
 I am a bioinformatics PhD student studying human impacts on biodiversity.
-Outside of my research, I am interested in literate programming, teaching, statistics, and Vim.
+Outside of my research, I am interested in literate programming, teaching, and gaming.
