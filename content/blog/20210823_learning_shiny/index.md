@@ -1,5 +1,5 @@
 ---
-title: "Learning Shiny (+ some tidymodels)"
+title: "Learning Shiny (+ practicing some tidymodels)"
 categories:
 - Shiny
 - Learning
@@ -13,7 +13,25 @@ excerpt: Learning about Shiny while using tidymodels to make predictions on the 
 
 
 
-Let's start by taking a look at how many NAs are missing in the dataset:
+I've been interested in learning Shiny for a while. 
+It'd be really useful to be able to whip one up real quick to do some basic EDA, and it'd be nice to share with colleagues so that they can do some investigating of their own. 
+I never really found the time to do this before, but over the past few months, I've found myself recently sharing RMarkdown documents that do the same analysis with several members of my lab ([see here](https://pommevilla.github.io/crop_priming/analysis_so_far.html) for an example). 
+This analysis is also good candidate for a package, but I'm using this as my excuse to finally pick up Shiny.
+
+While I'm learning Shiny, I thought it'd be a good idea to do some basic [tidymodels](https://www.tidymodels.org/) practice. 
+I've used the package quite extensively in my [harmful algal blooms]({{< relref "../../project/20210823_HAB" >}}) prediction project, but it's been a while and I thought I'd practice both at the same time by implementing a prediction model in Shiny. Credit goes to [Andrew Couch](https://www.youtube.com/c/AndrewCouch/videos) for all of his great videos teaching Shiny.
+
+## The data
+
+Today, we'll be using the [Palmer Penguins](https://allisonhorst.github.io/palmerpenguins/) dataset. From the website:
+
+> The goal of palmerpenguins is to provide a great dataset for data exploration & visualization, as an alternative to iris.
+
+{Alison Hill](https://twitter.com/apreshill), my mentor during my RStudio internship, is also an author on the package, but I'm totally not biased, I swear.
+
+Also, a note before we get started - this isn't meant to be a full comprehensive analysis of the dataset. The purpose of this exercise was to create a model and serve it in a Shiny app to make predictions.
+
+Let's begin by taking a look at how many NAs are missing in the dataset:
 
 
 ```r
@@ -266,7 +284,7 @@ final_boosted_model <- fit(boosted_workflow, penguins)
 ```
 
 ```
-## [10:36:25] WARNING: amalgamation/../src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
+## [11:28:31] WARNING: amalgamation/../src/learner.cc:1095: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softprob' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.
 ```
 
 ```r
@@ -277,4 +295,4 @@ I then loaded that model into a simple Shiny app that takes The different measur
 
 ![](shiny-db.png)
 
-You can play with the app [here](https://pommevilla.shinyapps.io/shiny_penguins) and check out the code [here](https://github.com/pommevilla/shiny_penguins/blob/main/R/app.R). It's a super simple app, but I wanted to get the hang of the Shiny workflow before I start doing some more intense ones.
+You can play with the app [here](https://pommevilla.shinyapps.io/shiny_penguins) and check out the code [here](https://github.com/pommevilla/shiny_penguins/blob/main/R/app.R). It's a super simple app, but I wanted to get the hang of the Shiny workflow before I start doing some more intense ones. I'll blog my experience creating a Shiny app for reproducible microbial analysis when I get started with that. 
