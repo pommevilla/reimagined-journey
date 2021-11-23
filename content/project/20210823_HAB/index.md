@@ -28,4 +28,5 @@ A general workflow is described below:
 
 ![](workflow.jpg)
 
-If you'd like to learn more about this project, see this [short presentation](https://docs.google.com/presentation/d/1he1N788kiU3Bbtic2OqpTNBty6BVyAYWB0avPAEmwa0/edit?usp=sharing) I put together to lead a discussion for an introductory bioinformatics class at Iowa State University.
+If you'd like to learn more about this project, see this [short presentation](https://iastate.app.box.com/file/887674234460?s=3wy28ffzzrx9spt77yty12lhkl1corca) I put together to lead a discussion for an introductory bioinformatics class at Iowa State University.
+
